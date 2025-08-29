@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Love Question</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: pink;
+      overflow: hidden;
+    }
+    h1 {
+      margin-top: 50px;
+      font-size: 28px;
+      color: #d6336c;
+    }
+    #yes, #no {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin: 20px;
+      position: absolute;
+    }
+    #yes { left: 40%; top: 200px; }
+    #no { left: 55%; top: 200px; }
+    #message {
+      margin-top: 300px;
+      font-size: 22px;
+      color: #800000;
+      font-weight: bold;
+    }
+    .heart {
+      position: absolute;
+      color: red;
+      font-size: 20px;
+      animation: float 5s linear infinite;
+    }
+    @keyframes float {
+      from { transform: translateY(100vh); opacity: 1; }
+      to { transform: translateY(-10vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Do you love Sanjiv? 💖</h1>
+  <button id="yes">Yes</button>
+  <button id="no">No</button>
+  <div id="message"></div>
+
+  <!-- Optional background music -->
+  <audio id="bgMusic" src="music.mp3" loop></audio>
+
+  <script>
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
+    const msg = document.getElementById("message");
+    const music = document.getElementById("bgMusic");
+
+    let noClicks = 0;
+
+    // Yes button click
+    yesBtn.addEventListener("click", () => {
+      msg.innerHTML = "I knew it! You love me very much and I love you too ❤️";
+      music.play().catch(() => {}); // Start music if allowed
+    });
+
+    // No button hover → move randomly
+    noBtn.addEventListener("mouseover", () => {
+      if (noClicks < 2) {
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 50);
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+        msg.innerHTML = "Try again 😜";
+      }
+    });
+
+    // No button click
+    noBtn.addEventListener("click", () => {
+      noClicks++;
+      if (noClicks >= 2) {
+        msg.innerHTML = "No other option now 😏💘";
+        noBtn.style.display = "none";
+        yesBtn.style.display = "none";
+      }
+    });
+
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 20 + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 500);
+  </script>
+</body>
+</html>
